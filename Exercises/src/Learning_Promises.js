@@ -3,50 +3,66 @@
  */
 // Based on 58of99 http://www.slideshare.net/domenicdenicola/callbacks-promises-and-coroutines-oh-my-the-evolution-of-asynchronicity-in-javascript
 var q = require('q');
-var time = Math.floor(Math.random() * 2) ? 0 : 1;
-
 
 var BOB = {
     firstname: 'Robert',
     lastname: 'Middleton'
 };
-
-
-// Happens 1st right?
-console.log('1');
-// Happens 2nd right?
-getUser(BOB, function (user) {
-    console.log(user.firstname);
-});
-// Happens 3rd right?
-console.log('3');
-
-// No 1,3, Robert due to async (get user taking some time (even 0 time)
-
 function getUser(name, cb) {
-
-    console.log('t:', time); // this happens second usually
+    console.log('Getting user..'); // this happens "in time" to be posted second
     setTimeout(
         function () {
-            return cb(name);
-        }, time);
+            return cb(name); // but the callback happens long enough later it becomes "late"
+        }, 2000);
 }
 
-/* Now as a promise.. */
+//
+// ASYNCHRONOUS BY DEFAULT
+//
 
-console.log('4')
-    .then(getUserwithPromise(BOB), function (user) {
-        console.log('promised', user.firstname);
-        return;
-    })
-    .then(console.log('5'));
+// Happens 1st ?
+console.log('Happens 1st');
 
-function getUserwithPromise(name, err) {
+// Happens 2nd ?
+getUser(BOB, function (user) {
+    console.log('Happens 2nd ', user.firstname);
+});
+
+// Happens 3rd ?
+console.log('Happens 3rd');
+
+
+//
+// SYNCHRONOUS WITH PROMISES
+//
+var count = 4;
+function say(text) {
     var deferred = q.defer();
-    console.log('t:', time); // this happens second usually
-    setTimeout(
-        function () {
-            deferred.resolve(name);
-        }, time);
+    console.log('Happens ' + count + '[' + text + ']');
+    count++;
+//    console.log('\n' + text);
+    deferred.resolve(text);
     return deferred.promise;
 }
+function getUserWithPromises() {
+    var deferred = q.defer();
+    count++;
+    setTimeout(
+        function () {
+
+
+            deferred.resolve(BOB.lastname) // but no callback, we return a resolved promise instead
+        }, 1000);
+    return deferred.promise;
+}
+
+
+q.try(function () {
+    return 'hi'; // set up something for say to output
+})
+    .then(say) // Happens 4
+    .then(getUserWithPromises)// Happens 5
+    .then(say)// Happens 6
+    .then(say)// Happens 7
+
+
