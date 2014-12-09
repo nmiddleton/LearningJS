@@ -4,9 +4,7 @@ var chai       = require('chai'),
     expect     = chai.expect,
     sinon      = require('sinon'),
     sinonChai  = require('sinon-chai'),
-    loremIpsum = require('lorem-ipsum'),
-
-    generateRandomNumber1_10 = require('../src/generateRandomNumber1_10');
+    generateRandomNumber1_10 = require('../src/randomNumber');
 
 
 chai.use(sinonChai);
