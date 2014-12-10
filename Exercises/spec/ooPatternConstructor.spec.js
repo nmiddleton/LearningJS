@@ -25,7 +25,11 @@ describe('A car constructor', function() {
     it('can be started', function(){
         var golf = new Car('Golf','silver');
         golf.start();
+        var lada = new Car('Lada','grey');
         expect(golf.isStarted).to.equal(true);
+        expect(lada.isStarted).to.equal(false);
+        golf.showData();
+        lada.showData();
     });
     it('one car changing private module variable can send all cars out of fashion!', function(){
         var escort = new Car('Escort','green');
@@ -35,19 +39,19 @@ describe('A car constructor', function() {
 
         //Minis suck
         mini.fashionToggle();       //change fashion ONLY for the mini?
-        mini.refreshFashion();      //refresh fashion of mini
-        escort.refreshFashion();    //refresh fashion of escort, why not, maybe it is still cool
+        mini.refreshCar();      //refresh fashion of mini
+        escort.refreshCar();    //refresh fashion of escort, why not, maybe it is still cool
 
         expect(mini.inFashion).to.equal(false);
         expect(escort.inFashion).to.equal(false); //Mini sucking sent escort out of fashion too
 
         // Escort can make mini cool again then?!
         escort.fashionToggle();     //change fashion ONLY for the escort?
-        escort.refreshFashion();    //refresh fashion of escort, why not, maybe it is now cool
-        mini.refreshFashion();      //refresh fashion of mini
+        escort.refreshCar();    //refresh fashion of escort, why not, maybe it is now cool
+        mini.refreshCar();      //refresh fashion of mini
         expect(escort.inFashion).to.equal(true); //Escort is cool
         expect(mini.inFashion).to.equal(true);   //Now mini (in fact all cars) are now cool
 
     });
 
-})
+});
