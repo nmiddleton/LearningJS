@@ -29,7 +29,7 @@ Car.prototype.fashionToggle = function () {
 };
 Car.prototype.refreshCar = function () {
     this.inFashion = carsInFashion;            // refresh the instance property to the global private variable
-    this.isStarted = carsInFashion;            // refresh the instance property to the global provate variable
+    this.isStarted = carsInFashion;            // refresh the instance property to the global private variable
 };
 Car.prototype.showData = function () {
     console.log('Type:', this.name);

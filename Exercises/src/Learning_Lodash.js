@@ -78,7 +78,7 @@ _.each(clubs,
 // FIND
 // _.find(list, iterator, [context]) Looks through each value in the list, returning the first truthy value it comes to (where ITERATOR contains the "test" of truth).
 //e/g/ find the first King
-console.log("FIND: ")
+console.log("FIND: ");
 var firstKing = _.find(cards,
     function (card) {
         return card.rank === 'K';
